@@ -1,7 +1,7 @@
 {
-  "name": "QueueSimulator",
+  "name": "Cloud Time Check",
   "version": "1.0.0",
-  "description": "Visual simulation of M/M/1 queuing behaviors.",
+  "description": "Visual display of time differences in cloud environments.",
   "main": "",
   "directories": {},
   "dependencies": {
