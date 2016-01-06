@@ -1,0 +1,14 @@
+{
+  "name": "QueueSimulator",
+  "version": "1.0.0",
+  "description": "Visual simulation of M/M/1 queuing behaviors.",
+  "main": "",
+  "directories": {},
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "author": "Michael Yeaney",
+  "license": "ISC"
+}
