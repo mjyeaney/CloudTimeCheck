@@ -1,0 +1,152 @@
+* { margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body { 
+    font-family: "Open Sans", Tahoma, Verdana; 
+    font-size: 15px; 
+    color: #333; 
+}
+input, select, textarea { 
+    font-family: "Open Sans", Tahoma, Verdana; 
+    font-size: 13px; 
+    color: #111; 
+    padding: .5em; 
+    border: 1px solid #a0a0a0; 
+    border-radius: 5px;
+}
+select { box-sizing: content-box; }
+button { 
+    font-size: 1em; 
+    color: #fff; 
+    padding: .5em 1em .5em 1em; 
+    border: 1px solid #555; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+button.green { background-color: #696; }
+button.red { background-color: #a99; color: #333;}
+button.grey { background-color: #aaa; color: #333;}
+
+input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 5px #0af; transition: all .25s;}
+
+h1, h2, h3, h4, h5, h6 { font-weight: 100; }
+a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
+
+#titleBar {
+    height: 3.95em;
+    position: relative;
+    background-color: #303030;
+    border-bottom: 1px solid #000;
+}
+
+#titleBar h1 {
+color: #fff;
+    float: left;
+    line-height: 2.6em;
+    padding: 0 2em 0 0.5em;
+    font-size: 1.5em;
+}
+#titleBar h1 span {
+    font-size: .65em;
+}
+
+#titleBar ul { list-style-type: none; position: absolute; right: 0; }
+#titleBar ul li { 
+    text-align: right;
+    line-height: 4em;
+    position: relative;
+    margin-right: 1em;
+}
+#titleBar ul li a { color: #fff; display: inline-block; margin: 0 1em;}
+#titleBar ul li:before {
+    content: "";
+    display: inline-block;
+    border: 20px solid #777;
+    border-radius: 20px;
+    position: absolute;
+    top: .5em;
+    left: -2.5em;
+}
+
+#inputPanel { 
+    position: absolute;
+    left: 0;
+    top: 4.6em;
+    bottom: 0;
+    width: 19.5em;
+    background-color: #c0c0c0;
+    border-right: 1px solid #ccc;
+    padding: 1em;
+    overflow-y: scroll;
+    background: #e0dfe3;
+    font-size: .875em;
+}
+
+#inputPanel .navPanel { 
+    height: 3em;
+    background-color: #e6e6e6;
+    margin: -1em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #a0a0a0;
+    padding: 0 .5em;
+    box-shadow: 0 0px 10px #aaa;
+}
+#inputPanel .navPanel a { 
+    display: inline-block;
+    height: 3em;
+    background-image: url(/images/back.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+    line-height: 3em;
+    padding-left: 2.25em;
+    color: #000;
+}
+
+#inputPanel div { margin-bottom: 1em; }
+#inputPanel div label, #inputPanel div input { display: block; }
+#inputPanel div.checkbox label, #inputPanel div.checkbox input { display: inline-block; }
+#inputPanel div label { line-height: 1.5em; }
+#inputPanel div input, #inputPanel div select { width: 17em; }
+#inputPanel div.checkbox {margin-bottom: 0; }
+#inputPanel div.checkbox input { width: auto; vertical-align: middle; }
+#inputPanel .buttonBar { text-align: center; margin-top: 1em; margin-bottom: 2em; }
+#inputPanel div button { margin-right: .5em; }
+#inputPanel .statusDisplay tr { height: 1.5em; }
+#inputPanel .statusDisplay td { padding: 0 1em 0 0; }
+#inputPanel .statusDisplay td:nth-child(2) { text-align: right; }
+#inputPanel .statusDisplay h3 { text-align: center; font-weight: 400; font-size: 1.1em; margin-bottom: 1em; }
+
+#results { 
+    position: absolute; 
+    left: 19em; 
+    top: 4em;
+    right: 0; 
+    bottom: 0; 
+    overflow-y: scroll; 
+    padding: 1em 0 0 1em; 
+}
+#results .noModel {
+    margin-top: 15em;
+    text-align: center;
+    font-weight: 100;
+}
+#results .noModel h3 {
+    width: 20em;
+    margin: 0 auto;
+}
+#results .graph { 
+    width: 48%; 
+    height: 20em; 
+    float: left; 
+    margin: 0 1em 1em 0; 
+}
+
+#results.active .graph { display: block; }
+#results.active .noModel { display: none; }
+#results.inactive .graph { display: none; }
+#results.inactive .noModel { display: block; }
+
+@media (max-width: 1024px){
+    #results { padding: 1em; }
+    #results .graph { width: 100%; }
+}
