@@ -10,7 +10,7 @@ var express = require('express')
 var app = express();
 
 // Check for the PORT env var from the azure host
-var port = process.env.PORT || 8008;
+var port = process.env.PORT || 8009;
 
 //
 // Helper fn to set no-cache headers
