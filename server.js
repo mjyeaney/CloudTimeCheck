@@ -33,13 +33,10 @@ app.get('/Home', function(req, res){
     setNoCache(res);
     res.sendFile(__dirname + '/default.html');
 });
-app.get('/Model', function(req, res){
+
+app.post('/Results', function(req, res){
     setNoCache(res);
-    res.sendFile(__dirname + '/model.html'); 
-});
-app.post('/Model', function(req, res){
-    setNoCache(res);
-    console.log("TODO: Received POST to /model:");
+    console.log("TODO: Received POST to /results:");
     //console.log(req);
     res.status(200).end();
 });
