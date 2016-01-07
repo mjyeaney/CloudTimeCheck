@@ -9,46 +9,6 @@
         scope.Distributions = {};
     }
 
-    // Helper to get base-10 log method
-    var _log10 = function(n){
-        return Math.log(n) / Math.LN10;
-    };
-
-    //
-    // Creates a uniformly-distributed random variable
-    //
-    var uniform = function(){
-        return Math.random();
-    };
-
-    //
-    // Creates a Poisson-distributed random variable.
-    //
-    var poisson = function(lambda){
-        return jStat.poisson.sample(lambda);
-    };
-
-    //
-    // Creates a Gaussian-distributed random varialbe
-    //
-    var gaussian = function(mu, sigma){
-        return jStat.normal.sample(mu, sigma);
-    };
-
-    //
-    // Creates a log-normal distributed random variable
-    //
-    var logNormal = function(mu, sigma){
-        return jStat.lognormal.sample(mu, sigma);
-    };
-
-    //
-    // Creates an exponential random variable
-    //
-    var exponential = function(lambda){
-        return jStat.exponential.sample(lambda);
-    };
-
     //
     // Creates a set of bins representing histrogram profile
     //
@@ -133,10 +93,5 @@
     };
 
     // Export methods
-    scope.Distributions.Uniform = uniform;
-    scope.Distributions.Poisson = poisson;
-    scope.Distributions.Gaussian = gaussian;
-    scope.Distributions.LogNormal = logNormal;
-    scope.Distributions.Exponential = exponential;
     scope.Distributions.Histogram = createHistogramBins;
 })(this);
