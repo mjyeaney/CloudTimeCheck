@@ -45,11 +45,13 @@ $(function(){
                     // Oops..boom.
                 } else {
                     // Update progress info
+                    console.log('1');
                 }
             };
             test.OnComplete = function(){
                 // All done!
-                $(this).text($(this).data('idle-text'));
+                console.log('2');
+                $('#btnRun').text($('#btnRun').data('idle-text'));
             };
             test.Start();
         });
