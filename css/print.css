@@ -1,0 +1,12 @@
+html, body { overflow: visible; }
+#inputPanel { display: none; }
+#results {
+    position: initial; 
+    left: 0; 
+    right: 0;
+    top: 0;
+    overflow: visible; 
+}
+#results .graph {
+    width: 45%;
+}
