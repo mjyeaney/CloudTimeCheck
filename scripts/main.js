@@ -3,25 +3,6 @@
 //
 
 $(function(){
- 
-    //
-    // Start simulation loop when user clicks 'run' button.
-    //
-    $('#btnRun').click(function(){
-        // Reset our environment and update DOM state
-        $('#results').removeClass('inactive').addClass('active');
-        $(this).text($(this).data('busy-text'));
-        
-        // TODO: Wrap in an async-delegate signature
-        setTimeout(function(){
-
-        }, 50);
-    });
-
-    //
-    // Setup the initial page view state.
-    //
-    $('#results').addClass('inactive');
 
     // Some more functional array extensions
     Array.prototype.Avg = function(){
@@ -39,6 +20,45 @@ $(function(){
         }
         return sum;
     };
+    
+    //
+    // Helper fn to defer exectution
+    //
+    var asyncInvoke = function(fn){
+        setTimeout(function(){
+            fn();
+        }, 50);
+    }
+ 
+    //
+    // Start simulation loop when user clicks 'run' button.
+    //
+    $('#btnRun').click(function(){
+        // Reset our environment and update visible DOM state
+        $(this).text($(this).data('busy-text'));
+        
+        // Defer the invocation of the test method(s)
+        asyncInvoke(function(){
+            var test = new TimeChecker();
+            test.OnNextResult = function(err, result){
+                if (err){
+                    // Oops..boom.
+                } else {
+                    // Update progress info
+                }
+            };
+            test.OnComplete = function(){
+                // All done!
+                $(this).text($(this).data('idle-text'));
+            };
+            test.Start();
+        });
+    });
+
+    //
+    // Setup the initial page view state.
+    //
+    $('#results').addClass('inactive');
 
     // Binds parameter input form to model
     function _bindFormToModel(){
