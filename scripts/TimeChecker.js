@@ -37,7 +37,7 @@
                 CORRECT_LATENCY = options.CorrectLatency;
                 
             // Test result collections
-            var timeResults = [0.0],
+            var timeResults = [],
                 latencies = [];
             
             // Function used to run a single test method
