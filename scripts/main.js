@@ -77,6 +77,7 @@ $(function(){
                 
                 _testRunner.OnComplete = function(){
                     $('#btnRun').text($('#btnRun').data('idle-text'));
+                    _testRunning = false;
                 };
                 
                 _testRunner.Start();
