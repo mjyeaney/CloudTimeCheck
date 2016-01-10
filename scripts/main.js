@@ -6,7 +6,8 @@
 
 $(function(){
     //
-    // Some more functional array extensions
+    // Some functional array extensions
+    // TODO: Should we just bring in underscore?
     //
     Array.prototype.Avg = function(){
         var sum = 0.0;
@@ -22,13 +23,6 @@ $(function(){
             sum += this[i];
         }
         return sum;
-    };
-    
-    //
-    // Helper fn to defer exectution
-    //
-    var asyncInvoke = function(fn){
-        setTimeout(fn, 50);
     };
     
     //
@@ -55,7 +49,7 @@ $(function(){
         $(this).text($(this).data('busy-text'));
         
         // Defer the invocation of the test method(s)
-        asyncInvoke(function(){
+        _asyncInvoke(function(){
             var options = _bindFormToModel();
             var test = new TimeChecker(options);
             
@@ -77,6 +71,13 @@ $(function(){
     $('#results').addClass('inactive');
     $('#txtTestCount').val('100');
     $('#txtTestDelay').val('50');
+    
+    //
+    // Helper fn to defer exectution
+    //
+    var _asyncInvoke = function(fn){
+        setTimeout(fn, 50);
+    };
 
     // Binds parameter input form to model
     function _bindFormToModel(){

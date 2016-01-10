@@ -28,19 +28,24 @@ app.use(express.static(__dirname, {
 }));
 
 //
-// Setup route handlers
+// Server route handlers
 //
 app.get('/Home', function(req, res){
     setNoCache(res);
     res.sendFile(__dirname + '/default.html');
 });
 
-app.post('/Results', function(req, res){
-    setNoCache(res);
-    console.log("TODO: Received POST to /results:");
-    //console.log(req);
-    res.status(200).end();
+app.get('/Time', function(req, res){
+   setNoCache(res);
+   res.json({"ServerTime":(new Date()).getTime()}); 
 });
+
+// app.post('/Results', function(req, res){
+//     setNoCache(res);
+//     console.log("TODO: Received POST to /results:");
+//     //console.log(req);
+//     res.status(200).end();
+// });
 
 //
 // Init server listener loop
