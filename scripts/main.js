@@ -39,6 +39,12 @@ $(function(){
     
     var e2 = $('#deltaHistogram'),
         c2 = _createGraph(e2, 'column', 'Time Deltas (ms) - Histogram', []);
+        
+    var e3 = $('#latencyGraph'),
+        c3 = _createGraph(e3, 'line', 'Latency (ms)', []);
+        
+    var e4 = $('#latencyHistogram'),
+        c4 = _createGraph(e4, 'column', 'Latency (ms) - Histogram', []);
  
     //
     // Start simulation loop when user clicks 'run' button.
@@ -76,9 +82,13 @@ $(function(){
 
     // Helper to rebind charts to new data sources
     function _updateGraphData(data){
-        var histData = Distributions.Histogram(data);
-        c1.highcharts().series[0].setData(data);
-        c2.highcharts().series[0].setData(histData);
+        var measurementHist = Distributions.Histogram(data.Measurements);
+        c1.highcharts().series[0].setData(data.Measurements);
+        c2.highcharts().series[0].setData(measurementHist);
+        
+        var latencyHist = Distributions.Histogram(data.Latencies);
+        c3.highcharts().series[0].setData(data.Latencies);
+        c4.highcharts().series[0].setData(latencyHist);
     };
 
     // Helper method to setup chart display

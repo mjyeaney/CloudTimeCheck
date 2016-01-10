@@ -25,17 +25,22 @@
                 maxCalls = 100;
                 
             // Test result collections
-            var timeResults = [];
+            var timeResults = [],
+                latencies = [];
             
             // Function used to run a single test method
             var invokeTest = function(){
                 if (calls < maxCalls){
                     // TODO: run test here
                     timeResults.push(Math.random() * 1000.0);
+                    latencies.push(Math.random() * 1000.0);
                     
                     // Invoke callback (if supplied)
                     if (self.OnNextResult){
-                        self.OnNextResult(timeResults);
+                        self.OnNextResult({
+                            Latencies : latencies,
+                            Measurements : timeResults
+                        });
                     }
 
                     // Increment call counter
