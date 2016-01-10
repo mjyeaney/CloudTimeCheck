@@ -1,10 +1,13 @@
+/* global $, Distributions, TimeChecker */
+
 //
 // Main controller module for Qsim.
 //
 
 $(function(){
-
+    //
     // Some more functional array extensions
+    //
     Array.prototype.Avg = function(){
         var sum = 0.0;
         for (var i = 0; i < this.length; i++){
@@ -25,32 +28,35 @@ $(function(){
     // Helper fn to defer exectution
     //
     var asyncInvoke = function(fn){
-        setTimeout(function(){
-            fn();
-        }, 50);
-    }
+        setTimeout(fn, 50);
+    };
+    
+    //
+    // Initialize charts placeholders (initial)
+    //
+    var e1 = $('#deltaGraph'),
+        c1 = _createGraph(e1, 'line', 'Time Deltas (ms)', []);
+    
+    var e2 = $('#deltaHistogram'),
+        c2 = _createGraph(e2, 'column', 'Time Deltas (ms) - Histogram', []);
  
     //
     // Start simulation loop when user clicks 'run' button.
     //
     $('#btnRun').click(function(){
         // Reset our environment and update visible DOM state
+        $('#results').removeClass('inactive').addClass('active');
         $(this).text($(this).data('busy-text'));
         
         // Defer the invocation of the test method(s)
         asyncInvoke(function(){
             var test = new TimeChecker();
-            test.OnNextResult = function(err, result){
-                if (err){
-                    // Oops..boom.
-                } else {
-                    // Update progress info
-                    console.log('1');
-                }
+            test.OnNextResult = function(results){
+                // Update progress info
+                _updateGraphData(results);
             };
             test.OnComplete = function(){
                 // All done!
-                console.log('2');
                 $('#btnRun').text($('#btnRun').data('idle-text'));
             };
             test.Start();
@@ -62,43 +68,17 @@ $(function(){
     //
     $('#results').addClass('inactive');
 
-    // Binds parameter input form to model
-    function _bindFormToModel(){
-        var params = {};
-        // TODO: 
-    };
+    // // Binds parameter input form to model
+    // function _bindFormToModel(){
+    //     var params = {};
+    //     // TODO: 
+    // };
 
     // Helper to rebind charts to new data sources
-    function _updateGraphData(){
-//         var arrivals = Queueing.Arrivals.slice(0);
-//         var arrivalHist = Distributions.Histogram(arrivals);
-//         c1.highcharts().series[0].setData(arrivals);
-//         c2.highcharts().series[0].setData(arrivalHist);
-// 
-//         var queueLengths = Queueing.QueueLengths.slice(0);
-//         var queueLengthHist = Distributions.Histogram(queueLengths);
-//         c3.highcharts().series[0].setData(queueLengths);
-//         c4.highcharts().series[0].setData(queueLengthHist);
-// 
-//         var waitTimes = Queueing.WaitTimes.slice(0);
-//         var waitTimeHist = Distributions.Histogram(waitTimes);
-//         c5.highcharts().series[0].setData(waitTimes);
-//         c6.highcharts().series[0].setData(waitTimeHist);
-//         
-//         var loadShedCounts = Queueing.LoadShedCounts.slice(0);
-//         var loadShedHist = Distributions.Histogram(loadShedCounts);
-//         c11.highcharts().series[0].setData(loadShedCounts);
-//         c12.highcharts().series[0].setData(loadShedHist);
-// 
-//         var utilization = Queueing.Utilization.slice(0);
-//         var utilizationHist = Distributions.Histogram(utilization);
-//         c7.highcharts().series[0].setData(utilization);
-//         c8.highcharts().series[0].setData(utilizationHist);
-// 
-//         var processing = Queueing.ProcessingTimes.slice(0);
-//         var processingHist = Distributions.Histogram(processing);
-//         c9.highcharts().series[0].setData(processing);
-//         c10.highcharts().series[0].setData(processingHist);
+    function _updateGraphData(data){
+        var histData = Distributions.Histogram(data);
+        c1.highcharts().series[0].setData(data);
+        c2.highcharts().series[0].setData(histData);
     };
 
     // Helper method to setup chart display

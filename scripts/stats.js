@@ -23,7 +23,7 @@
             uniqueValues = {length: 0};
 
         // Apply Sturge's method to determin bin counts
-        nBins = Math.ceil(Math.log(data.length) / Math.LN2 + 1);
+        nBins = Math.ceil((Math.log(data.length) / Math.LN2) + 1);
 
         // Figure out cardinality and sort data
         localData.sort(function(x, y){

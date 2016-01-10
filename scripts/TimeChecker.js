@@ -13,25 +13,39 @@
     if (!scope.TimeChecker){
         scope.TimeChecker = function(options){
             
+            // Deafult options if none provided
+            if (!options){
+                options = {};
+            }
+            
             // Apply any options
             var self = this,
-                hTimer = null,
-                RETRY_INTERVAL_MS = (options.retryInterval || 500), 
+                RETRY_INTERVAL_MS = (options.retryInterval || 50), 
                 calls = 0, 
-                maxCalls = 10;
+                maxCalls = 100;
+                
+            // Test result collections
+            var timeResults = [];
             
             // Function used to run a single test method
             var invokeTest = function(){
                 if (calls < maxCalls){
                     // TODO: run test here
+                    timeResults.push(Math.random() * 1000.0);
+                    
+                    // Invoke callback (if supplied)
                     if (self.OnNextResult){
-                        self.OnNextResult();
+                        self.OnNextResult(timeResults);
                     }
+
+                    // Increment call counter
                     calls++;
-                    console.log('Calls = ' + calls);
+                    
+                    // Fire off again after RETRY delay
+                    setTimeout(invokeTest, RETRY_INTERVAL_MS);
                 } else {
-                    // Done - stop call chain
-                    clearInterval(hTimer);
+                    // Done - reset and stop call chain
+                    calls = 0;
                     if (self.OnComplete){
                         self.OnComplete();
                     }
@@ -44,9 +58,7 @@
             
             // starts the checker
             self.Start = function(){
-                hTimer = setInterval(function(){
-                    invokeTest();
-                }, RETRY_INTERVAL_MS);
+                setTimeout(invokeTest, RETRY_INTERVAL_MS);
             };       
         };
     }
