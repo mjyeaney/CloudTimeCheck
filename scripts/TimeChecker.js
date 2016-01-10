@@ -37,7 +37,7 @@
                 CORRECT_LATENCY = options.CorrectLatency;
                 
             // Test result collections
-            var timeResults = [],
+            var timeResults = [0.0],
                 latencies = [];
             
             // Function used to run a single test method
@@ -77,7 +77,13 @@
                             // Fire off again after RETRY delay
                             if (!stopTest){
                                 setTimeout(invokeTest, RETRY_INTERVAL_MS);
-                            } 
+                            } else {
+                                // Done - reset and stop call chain
+                                calls = 0;
+                                if (self.OnComplete){
+                                    self.OnComplete();
+                                }
+                            }
                         }
                     });
                 } else {
