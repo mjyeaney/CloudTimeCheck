@@ -39,22 +39,36 @@
             var invokeTest = function(){
                 if (calls < MAX_TEST_RUNS){
                     // TODO: run test here - Mock data for now
-                    timeResults.push(Math.random() * 1000.0);
-                    latencies.push(Math.random() * 1000.0);
+                    var start = new Date().getTime();
                     
-                    // Invoke callback (if supplied)
-                    if (self.OnNextResult){
-                        self.OnNextResult({
-                            Latencies : latencies,
-                            Measurements : timeResults
-                        });
-                    }
+                    $.ajax({
+                        url: '/Time',
+                        success: function(data){
+                            var end = new Date().getTime();
+                            var latency = (end - start) / 2.0;
+                            
+                            console.log('Start: ' + start);
+                            console.log('End: ' + end);
+                            console.log('Latency: ' + latency);
+                            
+                            timeResults.push(start - (data.ServerTime - latency));
+                            latencies.push(latency);
+                            
+                            // Invoke callback (if supplied)
+                            if (self.OnNextResult){
+                                self.OnNextResult({
+                                    Latencies : latencies,
+                                    Measurements : timeResults
+                                });
+                            }
 
-                    // Increment call counter
-                    calls++;
-                    
-                    // Fire off again after RETRY delay
-                    setTimeout(invokeTest, RETRY_INTERVAL_MS);
+                            // Increment call counter
+                            calls++;
+                            
+                            // Fire off again after RETRY delay
+                            setTimeout(invokeTest, RETRY_INTERVAL_MS); 
+                        }
+                    });
                 } else {
                     // Done - reset and stop call chain
                     calls = 0;
