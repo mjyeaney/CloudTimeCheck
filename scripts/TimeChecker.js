@@ -4,7 +4,7 @@
 // TODO: Need to extract the following dependencies:
 //
 //      - XHR / Network calls
-//      - Timer functions (setInterval/setTimeout)
+//      - Timer functions (setTimeout)
 //
 
 (function(scope){
@@ -20,9 +20,9 @@
             
             // Apply any options
             var self = this,
-                RETRY_INTERVAL_MS = (options.retryInterval || 50), 
+                RETRY_INTERVAL_MS = (options.TestDelay || 50), 
                 calls = 0, 
-                maxCalls = 100;
+                MAX_TEST_RUNS = (options.TestCount || 100);
                 
             // Test result collections
             var timeResults = [],
@@ -30,8 +30,8 @@
             
             // Function used to run a single test method
             var invokeTest = function(){
-                if (calls < maxCalls){
-                    // TODO: run test here
+                if (calls < MAX_TEST_RUNS){
+                    // TODO: run test here - Mock data for now
                     timeResults.push(Math.random() * 1000.0);
                     latencies.push(Math.random() * 1000.0);
                     

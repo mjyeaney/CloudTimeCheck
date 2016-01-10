@@ -101,6 +101,10 @@ color: #fff;
     padding-left: 2.25em;
     color: #000;
 }
+#inputPanel .navPanel h3 {
+    font-weight: 500;
+    line-height: 2.65em;
+}
 
 #inputPanel div { margin-bottom: 1em; }
 #inputPanel div label, #inputPanel div input { display: block; }

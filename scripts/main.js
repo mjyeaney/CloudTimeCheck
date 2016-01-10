@@ -56,15 +56,17 @@ $(function(){
         
         // Defer the invocation of the test method(s)
         asyncInvoke(function(){
-            var test = new TimeChecker();
+            var options = _bindFormToModel();
+            var test = new TimeChecker(options);
+            
             test.OnNextResult = function(results){
-                // Update progress info
                 _updateGraphData(results);
             };
+            
             test.OnComplete = function(){
-                // All done!
                 $('#btnRun').text($('#btnRun').data('idle-text'));
             };
+            
             test.Start();
         });
     });
@@ -73,12 +75,16 @@ $(function(){
     // Setup the initial page view state.
     //
     $('#results').addClass('inactive');
+    $('#txtTestCount').val('100');
+    $('#txtTestDelay').val('50');
 
-    // // Binds parameter input form to model
-    // function _bindFormToModel(){
-    //     var params = {};
-    //     // TODO: 
-    // };
+    // Binds parameter input form to model
+    function _bindFormToModel(){
+        var params = {};
+        params.TestCount = parseInt($('#txtTestCount').val());
+        params.TestDelay = parseFloat($('#txtTestDelay').val());
+        return params;
+    };
 
     // Helper to rebind charts to new data sources
     function _updateGraphData(data){
