@@ -19,7 +19,7 @@
     // before defining it.
     if (!scope.TimeChecker){
         scope.TimeChecker = function(options){
-            
+
             // Deafult options if none provided
             if (!options){
                 options = {};
@@ -43,17 +43,39 @@
             // Function used to run a single test method
             var invokeTest = function(){
                 if ((calls < MAX_TEST_RUNS) && (!stopTest)){
-                    // Begin test run: first take time snapshot
+
+                    //
+                    // TODO: Note the following workflow begins measurements on the 
+                    // Request side of the network call. Let's investigate doing this on
+                    // the reponse side, since that *should* allow us to avoid being delayed
+                    // for $.ajax setup, request negotiation, etc. The response side should
+                    // therefore be much "purer", and have less variance.
+                    //
+                    
+                    // Begin test run: first take time snapshot of our time.
                     var start = new Date().getTime();
                     
                     // Make call to get data
                     $.ajax({
                         url: '/Time',
                         success: function(data){
+
+                            //
+                            // Take another snapshot of the current timer now
+                            // We want to try to isolate the round-trip latency
+                            // in order to remove effects of the network. In order to
+                            // do this, we want *half* of the measured round-trip time, 
+                            // since the server time was sample mid-way through this time
+                            // (NOTE: this is approximate, and assumes symmetric latency).
+                            //
+                            // While not perfect, informal testing shows this agrees with 
+                            // the Chrome developer tools latency measurement, so we're definitely
+                            // within the ballpark.
+                            //
                             var end = new Date().getTime();
                             var latency = (end - start) / 2.0;
                             
-                            // compute/save time delta
+                            // compute/save time delta (check options for corrections)
                             if (CORRECT_LATENCY){
                                 timeResults.push(Math.abs(start - (data.ServerTime - latency)));
                             } else {
@@ -78,21 +100,21 @@
                             if (!stopTest){
                                 setTimeout(invokeTest, RETRY_INTERVAL_MS);
                             } else {
-                                // Done - reset and stop call chain
-                                calls = 0;
-                                if (self.OnComplete){
-                                    self.OnComplete();
-                                }
+                                completeTest();
                             }
                         }
                     });
                 } else {
-                    // Done - reset and stop call chain
-                    calls = 0;
-                    if (self.OnComplete){
-                        self.OnComplete();
-                    }
+                    completeTest();
                 }
+            };
+            
+            // Ends a test run, and invokes the completion callback.
+            var completeTest = function(){
+                calls = 0;
+                if (self.OnComplete){
+                    self.OnComplete();
+                }                
             };
             
             // callback methods
