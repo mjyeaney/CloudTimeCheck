@@ -144,8 +144,7 @@ $(function(){
                 title: {
                     text: '' 
                 },
-                endOnTick: true,
-                min: 0
+                endOnTick: true
             },
             legend: {
                 enabled: false 
