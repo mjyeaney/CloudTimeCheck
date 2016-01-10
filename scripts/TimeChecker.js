@@ -27,9 +27,11 @@
             
             // Apply any options
             var self = this,
+                stopTest = false,
                 RETRY_INTERVAL_MS = (options.TestDelay || 50), 
                 calls = 0, 
-                MAX_TEST_RUNS = (options.TestCount || 100);
+                MAX_TEST_RUNS = (options.TestCount || 100),
+                CORRECT_LATENCY = (options.CorrectLatency || true);
                 
             // Test result collections
             var timeResults = [],
@@ -37,21 +39,25 @@
             
             // Function used to run a single test method
             var invokeTest = function(){
-                if (calls < MAX_TEST_RUNS){
-                    // TODO: run test here - Mock data for now
+                if ((calls < MAX_TEST_RUNS) && (!stopTest)){
+                    // Begin test run: first take time snapshot
                     var start = new Date().getTime();
                     
+                    // Make call to get data
                     $.ajax({
                         url: '/Time',
                         success: function(data){
                             var end = new Date().getTime();
                             var latency = (end - start) / 2.0;
                             
-                            // console.log('Start: ' + start);
-                            // console.log('End: ' + end);
-                            // console.log('Latency: ' + latency);
+                            // compute/save time delta
+                            if (CORRECT_LATENCY){
+                                timeResults.push(start - (data.ServerTime - latency));
+                            } else {
+                                timeResults.push(start - data.ServerTime);
+                            }
                             
-                            timeResults.push(start - (data.ServerTime - latency));
+                            // save latency
                             latencies.push(latency);
                             
                             // Invoke callback (if supplied)
@@ -66,7 +72,9 @@
                             calls++;
                             
                             // Fire off again after RETRY delay
-                            setTimeout(invokeTest, RETRY_INTERVAL_MS); 
+                            if (!stopTest){
+                                setTimeout(invokeTest, RETRY_INTERVAL_MS);
+                            } 
                         }
                     });
                 } else {
@@ -85,7 +93,12 @@
             // starts the checker
             self.Start = function(){
                 setTimeout(invokeTest, RETRY_INTERVAL_MS);
-            };       
+            };
+            
+            // Stops the active run (if any)
+            self.Stop = function(){
+                stopTest = true;
+            };
         };
     }
 })(this);

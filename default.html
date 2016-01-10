@@ -3,8 +3,8 @@
 <head>
     <title>Cloud Time Check</title>
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600"" rel="stylesheet"" type="text/css"" />
-    <link type="text/css" href="/css/site.css?ver=1.03" rel="stylesheet" />
-    <link type="text/css" href="/css/print.css?ver=1.03" rel="stylesheet" media="print" />
+    <link type="text/css" href="/css/site.css?ver=1.04" rel="stylesheet" />
+    <link type="text/css" href="/css/print.css?ver=1.04" rel="stylesheet" media="print" />
 </head>
 <body>
     <div id="titleBar">
@@ -30,8 +30,13 @@
             <input id="txtTestDelay" type="text" value="" />
         </div>
         
+        <div class="checkbox">
+            <label for="cbCorrectLatency">Apply Latency Correction:</label>
+            <input id="cbCorrectLatency" type="checkbox" value="" />
+        </div>
+        
         <div class="buttonBar">
-            <button id="btnRun" class="grey" title="Run" data-busy-text="Working..." data-idle-text="Run Test">Run Test</button>
+            <button id="btnRun" class="grey" title="Run" data-busy-text="Click to Stop" data-idle-text="Run Test">Run Test</button>
         </div>
     </div>
 
@@ -46,12 +51,12 @@
     </div>
 
     <script src="/scripts/jquery-2.1.4-min.js"></script>
-    <script src="/scripts/highcharts.js?ver=1.03"></script>
+    <script src="/scripts/highcharts.js?ver=1.04"></script>
     
-    <script src="/scripts/Statistics.js?ver=1.03"></script>
-    <script src="/scripts/Network.js?ver=1.03"></script>
-    <script src="/scripts/TimeChecker.js?ver=1.03"></script>
+    <script src="/scripts/Statistics.js?ver=1.04"></script>
+    <script src="/scripts/Network.js?ver=1.04"></script>
+    <script src="/scripts/TimeChecker.js?ver=1.04"></script>
     
-    <script src="/scripts/main.js?ver=1.03"></script>
+    <script src="/scripts/main.js?ver=1.04"></script>
 </body>
 </html>

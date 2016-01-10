@@ -49,30 +49,42 @@ $(function(){
         
     var e4 = $('#latencyHistogram'),
         c4 = _createGraph(e4, 'column', 'Latency (ms) - Histogram', []);
+        
+    //
+    // Control flags
+    //
+    var _testRunning = false,
+        _testRunner = null;
  
     //
     // Start simulation loop when user clicks 'run' button.
     //
     $('#btnRun').click(function(){
-        // Reset our environment and update visible DOM state
-        $('#results').removeClass('inactive').addClass('active');
-        $(this).text($(this).data('busy-text'));
-        
-        // Defer the invocation of the test method(s)
-        _asyncInvoke(function(){
-            var options = _bindFormToModel();
-            var test = new TimeChecker(options);
+        if (!_testRunning){
+            // Reset our environment and update visible DOM state
+            $('#results').removeClass('inactive').addClass('active');
+            $(this).text($(this).data('busy-text'));
+            _testRunning = true;
             
-            test.OnNextResult = function(results){
-                _updateGraphData(results);
-            };
-            
-            test.OnComplete = function(){
-                $('#btnRun').text($('#btnRun').data('idle-text'));
-            };
-            
-            test.Start();
-        });
+            // Defer the invocation of the test method(s)
+            _asyncInvoke(function(){
+                var options = _bindFormToModel();
+                _testRunner = new TimeChecker(options);
+                
+                _testRunner.OnNextResult = function(results){
+                    _updateGraphData(results);
+                };
+                
+                _testRunner.OnComplete = function(){
+                    $('#btnRun').text($('#btnRun').data('idle-text'));
+                };
+                
+                _testRunner.Start();
+            });
+        } else {
+            _testRunner.Stop();
+            _testRunning = false;
+        }
     });
 
     //
@@ -94,6 +106,7 @@ $(function(){
         var params = {};
         params.TestCount = parseInt($('#txtTestCount').val());
         params.TestDelay = parseFloat($('#txtTestDelay').val());
+        params.CorrectLatency = $('#cbCorrectLatency').prop('checked');
         return params;
     };
 
