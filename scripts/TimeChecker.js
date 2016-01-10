@@ -1,3 +1,4 @@
+/* global $ */
 //
 // The core time checker logic itself.
 //
@@ -31,8 +32,8 @@
             // Apply any options
             var self = this,
                 stopTest = false,
-                RETRY_INTERVAL_MS = options.TestDelay, 
                 calls = 0, 
+                RETRY_INTERVAL_MS = options.TestDelay,
                 MAX_TEST_RUNS = options.TestCount,
                 CORRECT_LATENCY = options.CorrectLatency;
                 
@@ -45,21 +46,22 @@
                 if ((calls < MAX_TEST_RUNS) && (!stopTest)){
 
                     //
-                    // TODO: Note the following workflow begins measurements on the 
-                    // Request side of the network call. Let's investigate doing this on
-                    // the reponse side, since that *should* allow us to avoid being delayed
-                    // for $.ajax setup, request negotiation, etc. The response side should
-                    // therefore be much "purer", and have less variance.
+                    // Start and end mark the timestamps (in ms) when our requests
+                    // initiate and complete. Latency is computed as noted below 
+                    // (i.e., RTT / 2.0)
                     //
-                    
-                    // Begin test run: first take time snapshot of our time.
-                    var start = new Date().getTime();
+                    var start = 0.0,
+                        end = 0.0,
+                        latency = 0.0;
                     
                     // Make call to get data
                     $.ajax({
                         url: '/Time',
+                        beforeSend: function(){
+                            // Begin test run: first take time snapshot of our time.
+                            start = new Date().getTime();                            
+                        },
                         success: function(data){
-
                             //
                             // Take another snapshot of the current timer now
                             // We want to try to isolate the round-trip latency
@@ -72,8 +74,8 @@
                             // the Chrome developer tools latency measurement, so we're definitely
                             // within the ballpark.
                             //
-                            var end = new Date().getTime();
-                            var latency = (end - start) / 2.0;
+                            end = new Date().getTime();
+                            latency = (end - start) / 2.0;
                             
                             // compute/save time delta (check options for corrections)
                             if (CORRECT_LATENCY){
