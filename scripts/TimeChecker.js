@@ -8,6 +8,13 @@
 //
 
 (function(scope){
+    // 
+    // Make sure requirements are loaded (TODO: Other ways to do this?)
+    //
+    if (!scope.Network){
+        throw "Unable to located required module 'Network'."
+    }
+    
     // Make sure our object doesn't already exist
     // before defining it.
     if (!scope.TimeChecker){

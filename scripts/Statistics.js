@@ -5,8 +5,8 @@
 
 (function(scope){
     // Define namespace
-    if (!scope.Distributions){
-        scope.Distributions = {};
+    if (!scope.Statistics){
+        scope.Statistics = {};
     }
 
     //
@@ -93,5 +93,5 @@
     };
 
     // Export methods
-    scope.Distributions.Histogram = createHistogramBins;
+    scope.Statistics.Histogram = createHistogramBins;
 })(this);

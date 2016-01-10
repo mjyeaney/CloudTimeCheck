@@ -1,10 +1,20 @@
-/* global $, Distributions, TimeChecker */
+/* global $, Statistics, TimeChecker */
 
 //
 // Main controller module for Qsim.
 //
 
 $(function(){
+    // 
+    // Make sure requirements are loaded (TODO: Other ways to do this?)
+    //
+    if (!TimeChecker){
+        throw "Unable to located required type 'TimeChecker'."
+    }
+    if (!Statistics){
+        throw "Unable to located required type 'Statistics'."
+    }
+        
     //
     // Some functional array extensions
     // TODO: Should we just bring in underscore?
@@ -89,11 +99,11 @@ $(function(){
 
     // Helper to rebind charts to new data sources
     function _updateGraphData(data){
-        var measurementHist = Distributions.Histogram(data.Measurements);
+        var measurementHist = Statistics.Histogram(data.Measurements);
         c1.highcharts().series[0].setData(data.Measurements);
         c2.highcharts().series[0].setData(measurementHist);
         
-        var latencyHist = Distributions.Histogram(data.Latencies);
+        var latencyHist = Statistics.Histogram(data.Latencies);
         c3.highcharts().series[0].setData(data.Latencies);
         c4.highcharts().series[0].setData(latencyHist);
     };
