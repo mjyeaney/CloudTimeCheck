@@ -23,15 +23,18 @@
             // Deafult options if none provided
             if (!options){
                 options = {};
+                options.CorrectLatency = true;
+                options.TestDelay = 50;
+                options.TestCount = 100;
             }
             
             // Apply any options
             var self = this,
                 stopTest = false,
-                RETRY_INTERVAL_MS = (options.TestDelay || 50), 
+                RETRY_INTERVAL_MS = options.TestDelay, 
                 calls = 0, 
-                MAX_TEST_RUNS = (options.TestCount || 100),
-                CORRECT_LATENCY = (options.CorrectLatency || true);
+                MAX_TEST_RUNS = options.TestCount,
+                CORRECT_LATENCY = options.CorrectLatency;
                 
             // Test result collections
             var timeResults = [],
@@ -48,7 +51,7 @@
                         url: '/Time',
                         success: function(data){
                             var end = new Date().getTime();
-                            var latency = (end - start) / 2.0;
+                            var latency = Math.abs((end - start) / 2.0);
                             
                             // compute/save time delta
                             if (CORRECT_LATENCY){
