@@ -51,13 +51,13 @@
                         url: '/Time',
                         success: function(data){
                             var end = new Date().getTime();
-                            var latency = Math.abs((end - start) / 2.0);
+                            var latency = (end - start) / 2.0;
                             
                             // compute/save time delta
                             if (CORRECT_LATENCY){
-                                timeResults.push(start - (data.ServerTime - latency));
+                                timeResults.push(Math.abs(start - (data.ServerTime - latency)));
                             } else {
-                                timeResults.push(start - data.ServerTime);
+                                timeResults.push(Math.abs(start - data.ServerTime));
                             }
                             
                             // save latency
