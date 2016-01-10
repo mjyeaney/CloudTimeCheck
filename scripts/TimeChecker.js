@@ -25,8 +25,8 @@
             if (!options){
                 options = {};
                 options.CorrectLatency = true;
-                options.TestDelay = 50;
-                options.TestCount = 100;
+                options.TestDelay = 10;
+                options.TestCount = 200;
             }
             
             // Apply any options

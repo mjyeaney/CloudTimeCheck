@@ -92,8 +92,8 @@ $(function(){
     // Setup the initial page view state.
     //
     $('#results').addClass('inactive');
-    $('#txtTestCount').val('100');
-    $('#txtTestDelay').val('50');
+    $('#txtTestCount').val('200');
+    $('#txtTestDelay').val('10');
     
     //
     // Helper fn to defer exectution
