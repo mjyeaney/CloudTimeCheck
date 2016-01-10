@@ -47,9 +47,9 @@
                             var end = new Date().getTime();
                             var latency = (end - start) / 2.0;
                             
-                            console.log('Start: ' + start);
-                            console.log('End: ' + end);
-                            console.log('Latency: ' + latency);
+                            // console.log('Start: ' + start);
+                            // console.log('End: ' + end);
+                            // console.log('Latency: ' + latency);
                             
                             timeResults.push(start - (data.ServerTime - latency));
                             latencies.push(latency);
