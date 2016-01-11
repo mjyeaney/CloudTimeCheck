@@ -43,9 +43,10 @@ app.get('/Time', function(req, res){
         host: 'mjycdndemo1282015.blob.core.windows.net',
         path: '/cndcontent/cloud.png'
     }, function(data){
+        var webServerTime = new Date().getTime();
         res.json({
-            ServerTime: new Date().getTime(),
-            StorageTime: new Date(data.headers.date).getTime()
+            ServerTime: webServerTime,
+            StorageTime: Math.abs(webServerTime - new Date(data.headers.date).getTime())
         });  
     });
 });
