@@ -39,7 +39,8 @@
                 
             // Test result collections
             var timeResults = [],
-                latencies = [];
+                latencies = [],
+                storageTimes = [];
             
             // Function used to run a single test method
             var invokeTest = function(){
@@ -80,18 +81,21 @@
                             // compute/save time delta (check options for corrections)
                             if (CORRECT_LATENCY){
                                 timeResults.push(Math.abs(start - (data.ServerTime - latency)));
+                                storageTimes.push(Math.abs(start - (data.StorageTime - latency)));
                             } else {
                                 timeResults.push(Math.abs(start - data.ServerTime));
+                                storageTimes.push(Math.abs(start - data.StorageTime));
                             }
                             
-                            // save latency
+                            // save latency reading                            
                             latencies.push(latency);
                             
                             // Invoke callback (if supplied)
                             if (self.OnNextResult){
                                 self.OnNextResult({
                                     Latencies : latencies,
-                                    Measurements : timeResults
+                                    Measurements : timeResults,
+                                    StorageTimes : storageTimes
                                 });
                             }
 

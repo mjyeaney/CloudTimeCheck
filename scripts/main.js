@@ -39,16 +39,22 @@ $(function(){
     // Initialize charts placeholders (initial)
     //
     var e1 = $('#deltaGraph'),
-        c1 = _createGraph(e1, 'line', 'Time Deltas (ms)', []);
+        c1 = _createGraph(e1, 'line', 'Web Server Delta (ms)', []);
     
     var e2 = $('#deltaHistogram'),
-        c2 = _createGraph(e2, 'column', 'Time Deltas (ms) - Histogram', []);
+        c2 = _createGraph(e2, 'column', 'Web Server Delta (ms) - Histogram', []);
         
     var e3 = $('#latencyGraph'),
         c3 = _createGraph(e3, 'line', 'Latency (ms)', []);
         
     var e4 = $('#latencyHistogram'),
         c4 = _createGraph(e4, 'column', 'Latency (ms) - Histogram', []);
+        
+    var e5 = $('#storageDeltaGraph'),
+        c5 = _createGraph(e5, 'line', 'Storage Delta (ms)', []);
+    
+    var e6 = $('#storageDeltaHistogram'),
+        c6 = _createGraph(e6, 'column', 'Storage Delta (ms) - Histogram', []);
         
     //
     // Control flags
@@ -120,6 +126,10 @@ $(function(){
         var latencyHist = Statistics.Histogram(data.Latencies);
         c3.highcharts().series[0].setData(data.Latencies);
         c4.highcharts().series[0].setData(latencyHist);
+        
+        var storageHist = Statistics.Histogram(data.StorageTimes);
+        c5.highcharts().series[0].setData(data.StorageTimes);
+        c6.highcharts().series[0].setData(storageHist);
     };
 
     // Helper method to setup chart display

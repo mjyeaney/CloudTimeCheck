@@ -7,7 +7,10 @@
 //
 // Pull in libs and bootstrap express application
 //
-var express = require('express')
+var express = require('express'),
+    http = require('http');
+    
+// Init the express engine
 var app = express();
 
 // Check for the PORT env var from the azure host
@@ -36,9 +39,15 @@ app.get('/Home', function(req, res){
 });
 app.get('/Time', function(req, res){
     setNoCache(res);
-    res.json({
-        ServerTime: (new Date()).getTime()
-    }); 
+    http.get({
+        host: 'mjycdndemo1282015.blob.core.windows.net',
+        path: '/cndcontent/cloud.png'
+    }, function(data){
+        res.json({
+            ServerTime: new Date().getTime(),
+            StorageTime: new Date(data.headers.date).getTime()
+        });  
+    });
 });
 
 //
