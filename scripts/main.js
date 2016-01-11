@@ -51,10 +51,10 @@ $(function(){
         c4 = _createGraph(e4, 'column', 'Latency (ms) - Histogram', []);
         
     var e5 = $('#storageDeltaGraph'),
-        c5 = _createGraph(e5, 'line', 'Storage Delta (ms)', []);
+        c5 = _createGraph(e5, 'line', 'Web <-> Storage Delta (ms)', []);
     
     var e6 = $('#storageDeltaHistogram'),
-        c6 = _createGraph(e6, 'column', 'Storage Delta (ms) - Histogram', []);
+        c6 = _createGraph(e6, 'column', 'Web <-> Storage Delta (ms) - Histogram', []);
         
     //
     // Control flags
