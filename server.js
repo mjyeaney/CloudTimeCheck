@@ -39,6 +39,8 @@ app.get('/Home', function(req, res){
 });
 
 app.get('/Time', function(req, res){
+    var storageReqStart = 0.0;
+    
     setNoCache(res);
     
     var storageRequest = http.request({
@@ -47,17 +49,21 @@ app.get('/Time', function(req, res){
     });
     
     storageRequest.on('error', function(data){
-        //console.log('Error event');
+        res.json({
+            Message: 'An unknown error occurred.'
+        });
     });
     
     storageRequest.on('response', function(data){
-        //console.log('Response event');
         var webServerTime = new Date().getTime();
+        var localLatency = (storageReqStart - webServerTime) / 2.0;
         res.json({
             ServerTime: webServerTime,
-            StorageDelta: webServerTime - new Date(data.headers.date).getTime()
+            StorageDelta: webServerTime - (new Date(data.headers.date).getTime() - localLatency)
         });  
     });
+    
+    storageReqStart = new Date().getTime();
     
     storageRequest.end();
 });
