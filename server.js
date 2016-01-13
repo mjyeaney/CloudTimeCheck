@@ -46,7 +46,12 @@ app.get('/Time', function(req, res){
     
     setNoCache(res);
     
-    // Create a basic HTTP request
+    // Create a basic HTTP request. Notice that we're only making
+    // an OPTIONS request. This is because we're only interested in the 
+    // 'Date' header, and therefore have no need to download any 
+    // payload. Note, in this specific example, all of these requests
+    // will fail (status=400) due to missing CORS headers, but the 
+    // Date header is still sent, meaning the errors don't matter.
     var storageRequest = http.request({
         method: 'options',
         host: 'mjycdndemo1282015.blob.core.windows.net'
