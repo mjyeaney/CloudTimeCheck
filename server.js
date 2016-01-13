@@ -31,40 +31,55 @@ app.use(express.static(__dirname, {
 }));
 
 //
-// Server route handlers
+// Returns the basic / default landing view
 //
 app.get('/Home', function(req, res){
     setNoCache(res);
     res.sendFile(__dirname + '/default.html');
 });
 
+//
+// Endpoint to get our time data payload
+//
 app.get('/Time', function(req, res){
     var storageReqStart = 0.0;
     
     setNoCache(res);
     
+    // Create a basic HTTP request
     var storageRequest = http.request({
         method: 'options',
         host: 'mjycdndemo1282015.blob.core.windows.net'
     });
     
+    // If any errors surface, make sure we complete the request
     storageRequest.on('error', function(data){
         res.json({
             Message: 'An unknown error occurred.'
         });
     });
     
+    // Grab the normal response info
     storageRequest.on('response', function(data){
+        
+        // Correct the storage time using the symmetric 
+        // method we use on the client. This is (of course)
+        // subject to the same weaknesses details in TimeChecker.js.
         var webServerTime = new Date().getTime();
         var localLatency = (storageReqStart - webServerTime) / 2.0;
+        var correctedStorageTime = new Date(data.headers.date).getTime() - localLatency;
+        
+        // Send back a JSON payload with our readings.
         res.json({
             ServerTime: webServerTime,
-            StorageDelta: webServerTime - (new Date(data.headers.date).getTime() - localLatency)
+            StorageDelta: webServerTime - correctedStorageTime 
         });  
     });
     
+    // Set the time stampt when we're starting the request
     storageReqStart = new Date().getTime();
     
+    // Mark the request as "ended", thereby sending it.
     storageRequest.end();
 });
 
