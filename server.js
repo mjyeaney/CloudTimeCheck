@@ -37,6 +37,7 @@ app.get('/Home', function(req, res){
     setNoCache(res);
     res.sendFile(__dirname + '/default.html');
 });
+
 app.get('/Time', function(req, res){
     setNoCache(res);
     http.get({
@@ -46,7 +47,7 @@ app.get('/Time', function(req, res){
         var webServerTime = new Date().getTime();
         res.json({
             ServerTime: webServerTime,
-            StorageTime: Math.abs(webServerTime - new Date(data.headers.date).getTime())
+            StorageDelta: webServerTime - new Date(data.headers.date).getTime()
         });  
     });
 });

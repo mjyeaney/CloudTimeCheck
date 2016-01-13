@@ -80,13 +80,13 @@
                             
                             // compute/save time delta (check options for corrections)
                             if (CORRECT_LATENCY){
-                                timeResults.push(Math.abs(start - (data.ServerTime - latency)));
+                                timeResults.push(start - (data.ServerTime - latency));
                             } else {
-                                timeResults.push(Math.abs(start - data.ServerTime));
+                                timeResults.push(start - data.ServerTime);
                             }
                             
                             // save latency reading and storage delta
-                            storageTimes.push(data.StorageTime);                            
+                            storageTimes.push(data.StorageDelta);                            
                             latencies.push(latency);
                             
                             // Invoke callback (if supplied)
