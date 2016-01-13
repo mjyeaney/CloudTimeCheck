@@ -121,9 +121,9 @@ $(function(){
 
     // Rebind charts to new data sources
     function _updateGraphData(data){
-        var measurementHist = Statistics.Histogram(data.WebserverDeltas);
+        var serverHist = Statistics.Histogram(data.WebserverDeltas);
         c1.highcharts().series[0].setData(data.WebserverDeltas);
-        c2.highcharts().series[0].setData(measurementHist);
+        c2.highcharts().series[0].setData(serverHist);
         
         var latencyHist = Statistics.Histogram(data.Latencies);
         c3.highcharts().series[0].setData(data.Latencies);
