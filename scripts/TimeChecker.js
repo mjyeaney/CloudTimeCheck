@@ -38,9 +38,9 @@
                 CORRECT_LATENCY = options.CorrectLatency;
                 
             // Test result collections
-            var timeResults = [],
+            var webServerDeltas = [],
                 latencies = [],
-                storageTimes = [];
+                storageDeltas = [];
             
             // Function used to run a single test method
             var invokeTest = function(){
@@ -80,21 +80,21 @@
                             
                             // compute/save time delta (check options for corrections)
                             if (CORRECT_LATENCY){
-                                timeResults.push(start - (data.ServerTime - latency));
+                                webServerDeltas.push(start - (data.ServerTime - latency));
                             } else {
-                                timeResults.push(start - data.ServerTime);
+                                webServerDeltas.push(start - data.ServerTime);
                             }
                             
                             // save latency reading and storage delta
-                            storageTimes.push(data.StorageDelta);                            
+                            storageDeltas.push(data.StorageDelta);                            
                             latencies.push(latency);
                             
                             // Invoke callback (if supplied)
                             if (self.OnNextResult){
                                 self.OnNextResult({
                                     Latencies : latencies,
-                                    Measurements : timeResults,
-                                    StorageTimes : storageTimes
+                                    WebserverDeltas : webServerDeltas,
+                                    StorageDeltas : storageDeltas
                                 });
                             }
 

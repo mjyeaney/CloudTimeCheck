@@ -121,24 +121,24 @@ $(function(){
 
     // Rebind charts to new data sources
     function _updateGraphData(data){
-        var measurementHist = Statistics.Histogram(data.Measurements);
-        c1.highcharts().series[0].setData(data.Measurements);
+        var measurementHist = Statistics.Histogram(data.WebserverDeltas);
+        c1.highcharts().series[0].setData(data.WebserverDeltas);
         c2.highcharts().series[0].setData(measurementHist);
         
         var latencyHist = Statistics.Histogram(data.Latencies);
         c3.highcharts().series[0].setData(data.Latencies);
         c4.highcharts().series[0].setData(latencyHist);
         
-        var storageHist = Statistics.Histogram(data.StorageTimes);
-        c5.highcharts().series[0].setData(data.StorageTimes);
+        var storageHist = Statistics.Histogram(data.StorageDeltas);
+        c5.highcharts().series[0].setData(data.StorageDeltas);
         c6.highcharts().series[0].setData(storageHist);
     };
     
     // Update summary report fields
     function _updateSummaryData(data){
-        $('#txtAvgWebserverDelta').text(data.Measurements.Avg().toFixed(2));
-        $('#txtAvgStorageDelta').text(data.StorageTimes.Avg().toFixed(2));
-        $('#txtAvgLatency').text(data.Latencies.Avg().toFixed(2));
+        $('#txtAvgWebserverDelta span').text(data.WebserverDeltas.Avg().toFixed(2));
+        $('#txtAvgStorageDelta span').text(data.StorageDeltas.Avg().toFixed(2));
+        $('#txtAvgLatency span').text(data.Latencies.Avg().toFixed(2));
     };
 
     // Helper method to setup chart display
