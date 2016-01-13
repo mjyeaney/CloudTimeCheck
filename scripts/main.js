@@ -79,6 +79,7 @@ $(function(){
                 
                 _testRunner.OnNextResult = function(results){
                     _updateGraphData(results);
+                    _updateSummaryData(results);
                 };
                 
                 _testRunner.OnComplete = function(){
@@ -91,6 +92,7 @@ $(function(){
         } else {
             _testRunner.Stop();
             _testRunning = false;
+            $('#btnRun').text($('#btnRun').data('idle-text'));
         }
     });
 
@@ -117,7 +119,7 @@ $(function(){
         return params;
     };
 
-    // Helper to rebind charts to new data sources
+    // Rebind charts to new data sources
     function _updateGraphData(data){
         var measurementHist = Statistics.Histogram(data.Measurements);
         c1.highcharts().series[0].setData(data.Measurements);
@@ -130,6 +132,13 @@ $(function(){
         var storageHist = Statistics.Histogram(data.StorageTimes);
         c5.highcharts().series[0].setData(data.StorageTimes);
         c6.highcharts().series[0].setData(storageHist);
+    };
+    
+    // Update summary report fields
+    function _updateSummaryData(data){
+        $('#txtAvgWebserverDelta').text(data.Measurements.Avg().toFixed(2));
+        $('#txtAvgStorageDelta').text(data.StorageTimes.Avg().toFixed(2));
+        $('#txtAvgLatency').text(data.Latencies.Avg().toFixed(2));
     };
 
     // Helper method to setup chart display
@@ -168,7 +177,12 @@ $(function(){
                 title: {
                     text: '' 
                 },
-                endOnTick: true
+                endOnTick: true,
+                labels: {
+                    formatter: function () {
+                        return this.value; // Disable label shortening
+                    }
+                }
             },
             legend: {
                 enabled: false 

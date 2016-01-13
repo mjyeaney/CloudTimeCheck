@@ -40,16 +40,26 @@ app.get('/Home', function(req, res){
 
 app.get('/Time', function(req, res){
     setNoCache(res);
-    http.get({
-        host: 'mjycdndemo1282015.blob.core.windows.net',
-        path: '/cndcontent/cloud.png'
-    }, function(data){
+    
+    var storageRequest = http.request({
+        method: 'options',
+        host: 'mjycdndemo1282015.blob.core.windows.net'
+    });
+    
+    storageRequest.on('error', function(data){
+        //console.log('Error event');
+    });
+    
+    storageRequest.on('response', function(data){
+        //console.log('Response event');
         var webServerTime = new Date().getTime();
         res.json({
             ServerTime: webServerTime,
             StorageDelta: webServerTime - new Date(data.headers.date).getTime()
         });  
     });
+    
+    storageRequest.end();
 });
 
 //
