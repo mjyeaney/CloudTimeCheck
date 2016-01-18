@@ -29,13 +29,10 @@
                 options.TestCount = 200;
             }
             
-            // Apply any options
+            // Local scope and control flags
             var self = this,
                 stopTest = false,
-                calls = 0, 
-                RETRY_INTERVAL_MS = options.TestDelay,
-                MAX_TEST_RUNS = options.TestCount,
-                CORRECT_LATENCY = options.CorrectLatency;
+                calls = 0;
                 
             // Test result collections
             var webServerDeltas = [],
@@ -43,8 +40,8 @@
                 storageDeltas = [];
             
             // Function used to run a single test method
-            var invokeTest = function(){
-                if ((calls < MAX_TEST_RUNS) && (!stopTest)){
+            var invokeSingleTest = function(){
+                if ((calls < options.TestCount) && (!stopTest)){
 
                     //
                     // Start and end mark the timestamps (in ms) when our requests
@@ -64,7 +61,7 @@
                         },
                         success: function(data){
                             //
-                            // Take another snapshot of the current timer now
+                            // Take another snapshot of the current timer now.
                             // We want to try to isolate the round-trip latency
                             // in order to remove effects of the network. In order to
                             // do this, we want *half* of the measured round-trip time, 
@@ -79,7 +76,7 @@
                             latency = (end - start) / 2.0;
                             
                             // compute/save time delta (check options for corrections)
-                            if (CORRECT_LATENCY){
+                            if (options.CorrectLatency){
                                 webServerDeltas.push(start - (data.ServerTime - latency));
                             } else {
                                 webServerDeltas.push(start - data.ServerTime);
@@ -98,12 +95,12 @@
                                 });
                             }
 
-                            // Increment call counter
+                            // Increment call count
                             calls++;
                             
                             // Fire off again after RETRY delay
                             if (!stopTest){
-                                setTimeout(invokeTest, RETRY_INTERVAL_MS);
+                                setTimeout(invokeSingleTest, options.TestDelay);
                             } else {
                                 completeTest();
                             }
@@ -117,10 +114,15 @@
             // Ends a test run, and invokes the completion callback.
             var completeTest = function(){
                 calls = 0;
+                
                 if (self.OnComplete){
                     self.OnComplete();
                 }                
             };
+            
+            //
+            // "Public" methods / properties / callbacks
+            //
             
             // callback methods
             self.OnNextResult = null;
@@ -128,7 +130,7 @@
             
             // starts the checker
             self.Start = function(){
-                setTimeout(invokeTest, RETRY_INTERVAL_MS);
+                setTimeout(invokeSingleTest, options.TestDelay);
             };
             
             // Stops the active run (if any)

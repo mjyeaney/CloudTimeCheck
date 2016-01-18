@@ -12,7 +12,7 @@
     //
     // Creates a set of bins representing histrogram profile
     //
-    var createHistogramBins = function(data){
+    var createHistogram = function(data){
         var nBins = 0,
             localData = data.slice(0),
             min = 0.0,
@@ -93,5 +93,5 @@
     };
 
     // Export methods
-    scope.Statistics.Histogram = createHistogramBins;
+    scope.Statistics.Histogram = createHistogram;
 })(this);
