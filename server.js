@@ -1,4 +1,5 @@
 /* global process, __dirname */
+
 //
 // Main node entry point. This file will be automatically
 // bootstrapped by the Azure runtime.

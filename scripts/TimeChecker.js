@@ -1,4 +1,5 @@
 /* global $ */
+
 //
 // The core time checker logic itself.
 //
@@ -32,25 +33,19 @@
             // Local scope and control flags
             var self = this,
                 stopTest = false,
-                calls = 0;
+                testCount = 0;
                 
-            // Test result collections
+            // Test result collections and tracking flags
             var webServerDeltas = [],
                 latencies = [],
-                storageDeltas = [];
+                storageDeltas = [],
+                start = 0.0,
+                end = 0.0,
+                latency = 0.0;
             
             // Function used to run a single test method
-            var invokeSingleTest = function(){
-                if ((calls < options.TestCount) && (!stopTest)){
-
-                    //
-                    // Start and end mark the timestamps (in ms) when our requests
-                    // initiate and complete. Latency is computed as noted below 
-                    // (i.e., RTT / 2.0)
-                    //
-                    var start = 0.0,
-                        end = 0.0,
-                        latency = 0.0;
+            var beginSingleTest = function(){
+                if ((testCount < options.TestCount) && (!stopTest)){
                     
                     // Make call to get data
                     $.ajax({
@@ -60,50 +55,7 @@
                             start = new Date().getTime();                            
                         },
                         success: function(data){
-                            //
-                            // Take another snapshot of the current timer now.
-                            // We want to try to isolate the round-trip latency
-                            // in order to remove effects of the network. In order to
-                            // do this, we want *half* of the measured round-trip time, 
-                            // since the server time was sample mid-way through this time
-                            // (NOTE: this is approximate, and assumes symmetric latency).
-                            //
-                            // While not perfect, informal testing shows this agrees with 
-                            // the Chrome developer tools latency measurement, so we're definitely
-                            // within the ballpark.
-                            //
-                            end = new Date().getTime();
-                            latency = (end - start) / 2.0;
-                            
-                            // compute/save time delta (check options for corrections)
-                            if (options.CorrectLatency){
-                                webServerDeltas.push(start - (data.ServerTime - latency));
-                            } else {
-                                webServerDeltas.push(start - data.ServerTime);
-                            }
-                            
-                            // save latency reading and storage delta
-                            storageDeltas.push(data.StorageDelta);                            
-                            latencies.push(latency);
-                            
-                            // Invoke callback (if supplied)
-                            if (self.OnNextResult){
-                                self.OnNextResult({
-                                    Latencies : latencies,
-                                    WebserverDeltas : webServerDeltas,
-                                    StorageDeltas : storageDeltas
-                                });
-                            }
-
-                            // Increment call count
-                            calls++;
-                            
-                            // Fire off again after RETRY delay
-                            if (!stopTest){
-                                setTimeout(invokeSingleTest, options.TestDelay);
-                            } else {
-                                completeTest();
-                            }
+                            completeSingleTest(data);
                         }
                     });
                 } else {
@@ -111,9 +63,57 @@
                 }
             };
             
+            // Callback method to perform test measurements
+            var completeSingleTest = function(data){
+                //
+                // Take another snapshot of the current timer now.
+                // We want to try to isolate the round-trip latency
+                // in order to remove effects of the network. In order to
+                // do this, we want *half* of the measured round-trip time, 
+                // since the server time was sample mid-way through this time
+                // (NOTE: this is approximate, and assumes symmetric latency).
+                //
+                // While not perfect, informal testing shows this agrees with 
+                // the Chrome developer tools latency measurement, so we're definitely
+                // within the ballpark.
+                //
+                end = new Date().getTime();
+                latency = (end - start) / 2.0;
+                
+                // compute/save time delta (check options for corrections)
+                if (options.CorrectLatency){
+                    webServerDeltas.push(start - (data.ServerTime - latency));
+                } else {
+                    webServerDeltas.push(start - data.ServerTime);
+                }
+                
+                // save latency reading and storage delta
+                storageDeltas.push(data.StorageDelta);                            
+                latencies.push(latency);
+                
+                // Invoke callback (if supplied)
+                if (self.OnNextResult){
+                    self.OnNextResult({
+                        Latencies : latencies,
+                        WebserverDeltas : webServerDeltas,
+                        StorageDeltas : storageDeltas
+                    });
+                }
+
+                // Increment call count
+                testCount++;
+                
+                // Fire off again after RETRY delay
+                if (!stopTest){
+                    setTimeout(beginSingleTest, options.TestDelay);
+                } else {
+                    completeTest();
+                }
+            };
+            
             // Ends a test run, and invokes the completion callback.
             var completeTest = function(){
-                calls = 0;
+                testCount = 0;
                 
                 if (self.OnComplete){
                     self.OnComplete();
@@ -130,7 +130,7 @@
             
             // starts the checker
             self.Start = function(){
-                setTimeout(invokeSingleTest, options.TestDelay);
+                setTimeout(beginSingleTest, options.TestDelay);
             };
             
             // Stops the active run (if any)
