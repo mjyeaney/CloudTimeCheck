@@ -112,18 +112,19 @@
                 latencies.push(latency);
                 runningLatencySum += latency;
                 
+                // Increment call count
+                testCount++;
+                
                 // Invoke callback (if supplied)
                 if (self.OnNextResult){
                     self.OnNextResult({
                         Latencies : latencies,
                         WebserverDeltas : webServerDeltas,
                         StorageDeltas : storageDeltas,
-                        StorageLatencies : storageLatencies
+                        StorageLatencies : storageLatencies,
+                        TestRunCount : testCount
                     });
                 }
-
-                // Increment call count
-                testCount++;
                 
                 // Fire off again after RETRY delay
                 if (!stopTest){

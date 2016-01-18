@@ -39,10 +39,10 @@ $(function(){
     // Initialize charts placeholders (initial)
     //
     var e1 = $('#deltaGraph'),
-        c1 = _createGraph(e1, 'line', 'Client-Web Time Skew (ms)', []);
+        c1 = _createGraph(e1, 'line', 'Client-Web Skew (ms)', []);
     
     var e2 = $('#deltaHistogram'),
-        c2 = _createGraph(e2, 'column', 'Client-Web Time Skew (ms) - Histogram', []);
+        c2 = _createGraph(e2, 'column', 'Client-Web Skew (ms) - Histogram', []);
         
     var e3 = $('#latencyGraph'),
         c3 = _createGraph(e3, 'line', 'Client-Web Latency (ms)', []);
@@ -51,10 +51,10 @@ $(function(){
         c4 = _createGraph(e4, 'column', 'Client-Web Latency (ms) - Histogram', []);
         
     var e5 = $('#storageDeltaGraph'),
-        c5 = _createGraph(e5, 'line', 'Web-Storage Time Skew (ms)', []);
+        c5 = _createGraph(e5, 'line', 'Web-Storage Skew (ms)', []);
     
     var e6 = $('#storageDeltaHistogram'),
-        c6 = _createGraph(e6, 'column', 'Web-Storage Time Skew (ms) - Histogram', []);
+        c6 = _createGraph(e6, 'column', 'Web-Storage Skew (ms) - Histogram', []);
         
     var e7 = $('#storageLatencyGraph'),
         c7 = _createGraph(e7, 'line', 'Web-Storage Latency (ms)', []);
@@ -146,9 +146,11 @@ $(function(){
     
     // Update summary report fields
     function _updateSummaryData(data){
+        $('#txtTestRunCount').text(data.TestRunCount);
         $('#txtAvgWebserverDelta span').text(data.WebserverDeltas.Avg().toFixed(2));
         $('#txtAvgStorageDelta span').text(data.StorageDeltas.Avg().toFixed(2));
         $('#txtAvgLatency span').text(data.Latencies.Avg().toFixed(2));
+        $('#txtAvgStorageLatency span').text(data.StorageLatencies.Avg().toFixed(2));
     };
 
     // Helper method to setup chart display
