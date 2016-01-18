@@ -38,6 +38,7 @@
             // Test result collections and tracking flags
             var webServerDeltas = [],
                 latencies = [],
+                runningLatencySum = 0.0,
                 storageDeltas = [],
                 start = 0.0,
                 end = 0.0,
@@ -82,6 +83,8 @@
                 
                 // compute/save time delta (check options for corrections)
                 if (options.CorrectLatency){
+                    var correction = (data.ServerTime - latency);
+                    
                     //
                     // Spike/asymmetric latency correction:
                     //
@@ -89,11 +92,8 @@
                     // the current running average latency as an estimator. Without this, 
                     // the deltas will be over-compensated.
                     //
-                    var correction = (data.ServerTime - latency);
-                    if (latency < 0){
-                        var avg = (latencies.reduce(function(prev, cur){
-                            return cur + prev;
-                        }, 0)) / latencies.length;
+                    if (correction < 0){
+                        var avg = runningLatencySum / latencies.length;                        
                         correction = (data.ServerTime - avg);
                     }
                     
@@ -105,6 +105,7 @@
                 // save latency reading and storage delta
                 storageDeltas.push(data.StorageDelta);                            
                 latencies.push(latency);
+                runningLatencySum += latency;
                 
                 // Invoke callback (if supplied)
                 if (self.OnNextResult){
