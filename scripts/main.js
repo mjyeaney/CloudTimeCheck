@@ -39,28 +39,28 @@ $(function(){
     // Initialize charts placeholders (initial)
     //
     var e1 = $('#deltaGraph'),
-        c1 = _createGraph(e1, 'line', 'Web Server Delta (ms)', []);
+        c1 = _createGraph(e1, 'line', 'Client-Web Time Skew (ms)', []);
     
     var e2 = $('#deltaHistogram'),
-        c2 = _createGraph(e2, 'column', 'Web Server Delta (ms) - Histogram', []);
+        c2 = _createGraph(e2, 'column', 'Client-Web Time Skew (ms) - Histogram', []);
         
     var e3 = $('#latencyGraph'),
-        c3 = _createGraph(e3, 'line', 'Client Latency (ms)', []);
+        c3 = _createGraph(e3, 'line', 'Client-Web Latency (ms)', []);
         
     var e4 = $('#latencyHistogram'),
-        c4 = _createGraph(e4, 'column', 'Client Latency (ms) - Histogram', []);
+        c4 = _createGraph(e4, 'column', 'Client-Web Latency (ms) - Histogram', []);
         
     var e5 = $('#storageDeltaGraph'),
-        c5 = _createGraph(e5, 'line', 'Web &lt-&gt Storage Delta (ms)', []);
+        c5 = _createGraph(e5, 'line', 'Web-Storage Time Skew (ms)', []);
     
     var e6 = $('#storageDeltaHistogram'),
-        c6 = _createGraph(e6, 'column', 'Web &lt-&gt Storage Delta (ms) - Histogram', []);
+        c6 = _createGraph(e6, 'column', 'Web-Storage Time Skew (ms) - Histogram', []);
         
-    var e7 = $('#latencyGraph'),
-        c7 = _createGraph(e7, 'line', 'Storage Latency (ms)', []);
+    var e7 = $('#storageLatencyGraph'),
+        c7 = _createGraph(e7, 'line', 'Web-Storage Latency (ms)', []);
         
-    var e8 = $('#latencyHistogram'),
-        c8 = _createGraph(e8, 'column', 'Storage Latency (ms) - Histogram', []);
+    var e8 = $('#storageLatencyHistogram'),
+        c8 = _createGraph(e8, 'column', 'Web-Storage Latency (ms) - Histogram', []);
         
     //
     // Control flags

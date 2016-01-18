@@ -58,6 +58,9 @@ app.get('/Time', function(req, res){
         host: 'mjycdndemo1282015.blob.core.windows.net'
     });
     
+    // Set the time stampt when we're starting the request
+    storageReqStart = new Date().getTime();
+    
     // If any errors surface, make sure we complete the request
     storageRequest.on('error', function(data){
         res.json({
@@ -72,19 +75,16 @@ app.get('/Time', function(req, res){
         // method we use on the client. This is (of course)
         // subject to the same weaknesses details in TimeChecker.js.
         var webServerTime = new Date().getTime();
-        var localLatency = (storageReqStart - webServerTime) / 2.0;
+        var localLatency = (webServerTime - storageReqStart) / 2.0;
         var correctedStorageTime = new Date(data.headers.date).getTime() - localLatency;
         
         // Send back a JSON payload with our readings.
         res.json({
-            ServerTime: webServerTime,
+            ServerTime: storageReqStart,
             StorageDelta: webServerTime - correctedStorageTime,
             StorageLatency: localLatency 
         });  
     });
-    
-    // Set the time stampt when we're starting the request
-    storageReqStart = new Date().getTime();
     
     // Mark the request as "ended", thereby sending it.
     storageRequest.end();
