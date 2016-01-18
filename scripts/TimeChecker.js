@@ -82,7 +82,22 @@
                 
                 // compute/save time delta (check options for corrections)
                 if (options.CorrectLatency){
-                    webServerDeltas.push(start - (data.ServerTime - latency));
+                    //
+                    // Spike/asymmetric latency correction:
+                    //
+                    // If the above delta ends up being < 0, we need to instead subtract off
+                    // the current running average latency as an estimator. Without this, 
+                    // the deltas will be over-compensated.
+                    //
+                    var correction = (data.ServerTime - latency);
+                    if (latency < 0){
+                        var avg = (latencies.reduce(function(prev, cur){
+                            return cur + prev;
+                        }, 0)) / latencies.length;
+                        correction = (data.ServerTime - avg);
+                    }
+                    
+                    webServerDeltas.push(start - correction);
                 } else {
                     webServerDeltas.push(start - data.ServerTime);
                 }
