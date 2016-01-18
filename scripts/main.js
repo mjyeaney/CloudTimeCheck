@@ -45,16 +45,22 @@ $(function(){
         c2 = _createGraph(e2, 'column', 'Web Server Delta (ms) - Histogram', []);
         
     var e3 = $('#latencyGraph'),
-        c3 = _createGraph(e3, 'line', 'Latency (ms)', []);
+        c3 = _createGraph(e3, 'line', 'Client Latency (ms)', []);
         
     var e4 = $('#latencyHistogram'),
-        c4 = _createGraph(e4, 'column', 'Latency (ms) - Histogram', []);
+        c4 = _createGraph(e4, 'column', 'Client Latency (ms) - Histogram', []);
         
     var e5 = $('#storageDeltaGraph'),
-        c5 = _createGraph(e5, 'line', 'Web <-> Storage Delta (ms)', []);
+        c5 = _createGraph(e5, 'line', 'Web &lt-&gt Storage Delta (ms)', []);
     
     var e6 = $('#storageDeltaHistogram'),
-        c6 = _createGraph(e6, 'column', 'Web <-> Storage Delta (ms) - Histogram', []);
+        c6 = _createGraph(e6, 'column', 'Web &lt-&gt Storage Delta (ms) - Histogram', []);
+        
+    var e7 = $('#latencyGraph'),
+        c7 = _createGraph(e7, 'line', 'Storage Latency (ms)', []);
+        
+    var e8 = $('#latencyHistogram'),
+        c8 = _createGraph(e8, 'column', 'Storage Latency (ms) - Histogram', []);
         
     //
     // Control flags
@@ -132,6 +138,10 @@ $(function(){
         var storageHist = Statistics.Histogram(data.StorageDeltas);
         c5.highcharts().series[0].setData(data.StorageDeltas);
         c6.highcharts().series[0].setData(storageHist);
+        
+        var storageLatencyHist = Statistics.Histogram(data.StorageLatencies);
+        c7.highcharts().series[0].setData(data.StorageLatencies);
+        c8.highcharts().series[0].setData(storageLatencyHist);
     };
     
     // Update summary report fields

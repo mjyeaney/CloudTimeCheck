@@ -40,6 +40,7 @@
                 latencies = [],
                 runningLatencySum = 0.0,
                 storageDeltas = [],
+                storageLatencies = [],
                 start = 0.0,
                 end = 0.0,
                 latency = 0.0;
@@ -106,7 +107,8 @@
                 }
                 
                 // save latency reading and storage delta
-                storageDeltas.push(data.StorageDelta);                            
+                storageDeltas.push(data.StorageDelta);
+                storageLatencies.push(data.StorageLatency);
                 latencies.push(latency);
                 runningLatencySum += latency;
                 
@@ -115,7 +117,8 @@
                     self.OnNextResult({
                         Latencies : latencies,
                         WebserverDeltas : webServerDeltas,
-                        StorageDeltas : storageDeltas
+                        StorageDeltas : storageDeltas,
+                        StorageLatencies : storageLatencies
                     });
                 }
 

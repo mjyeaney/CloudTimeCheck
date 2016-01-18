@@ -78,7 +78,8 @@ app.get('/Time', function(req, res){
         // Send back a JSON payload with our readings.
         res.json({
             ServerTime: webServerTime,
-            StorageDelta: webServerTime - correctedStorageTime 
+            StorageDelta: webServerTime - correctedStorageTime,
+            StorageLatency: localLatency 
         });  
     });
     
