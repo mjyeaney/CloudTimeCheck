@@ -42,7 +42,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #titleBar h1 {
     color: #fff;
     float: left;
-    line-height: 2.6em;
+    line-height: 2.5em;
     padding: 0 2em 0 0.5em;
     font-size: 1.5em;
 }
