@@ -95,11 +95,8 @@
                     // the deltas will be over-compensated.
                     //
                     if (correction < 0){
-                        console.log('Applying latency correction:');
-                        console.log('\tOld correction = ' + correction);
                         var avg = runningLatencySum / latencies.length;                        
                         correction = (data.ServerTime - avg);
-                        console.log('\tNew correction = ' + correction);
                     }
                     
                     webServerDeltas.push(start - correction);

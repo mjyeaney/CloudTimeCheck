@@ -27,7 +27,11 @@ button.green { background-color: #696; }
 button.red { background-color: #a99; color: #333;}
 button.grey { background-color: #aaa; color: #333;}
 
-input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 5px #0af; transition: all .25s;}
+input:focus, select:focus, textarea:focus { 
+    outline: none; 
+    box-shadow: 0 0 5px #0af; 
+    transition: all .25s;
+}
 
 h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
@@ -157,6 +161,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 }
 
 @media (max-width: 760px){
+    html { overflow: inherit; }
     body { overflow: auto; }
     
     #titleBar ul { display: none; }
