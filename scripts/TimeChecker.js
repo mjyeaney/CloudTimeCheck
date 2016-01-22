@@ -26,6 +26,7 @@
             if (!options){
                 options = {};
                 options.CorrectLatency = true;
+                options.TestStorage = true;
                 options.TestDelay = 10;
                 options.TestCount = 200;
             }
@@ -80,7 +81,7 @@
                 // within the ballpark.
                 //
                 end = new Date().getTime();
-                latency = (end - start) / 2.0;
+                latency = (end - start);
                 
                 // compute/save time delta (check options for corrections)
                 if (options.CorrectLatency){
