@@ -21,28 +21,30 @@
             <h3>Test Paramters</h3>
         </div>
         
-        <div class="textBox">
-            <label for="txtTestCount">Measurement Count:</label>
-            <input id="txtTestCount" type="text" value="" />
-        </div>
-        
-        <div class="textBox">
-            <label for="txtTestDelay">Test Delay (ms):</label>
-            <input id="txtTestDelay" type="text" value="" />
-        </div>
-        
-        <div class="checkbox">
-            <label for="cbCorrectLatency">Apply Latency Correction:</label>
-            <input id="cbCorrectLatency" type="checkbox" value="" />
-        </div>
-        
-        <div class="checkbox">
-            <label for="cbTestStorage">Test Storage Timestamps:</label>
-            <input id="cbTestStorage" type="checkbox" value="" checked="checked" />
-        </div>
-        
-        <div class="buttonBar">
-            <button id="btnRun" class="grey" title="Run" data-busy-text="Click to Stop" data-idle-text="Run Test">Run Test</button>
+        <div class="inputForm">
+            <div class="textBox">
+                <label for="txtTestCount">Measurement Count:</label>
+                <input id="txtTestCount" type="text" value="" />
+            </div>
+            
+            <div class="textBox">
+                <label for="txtTestDelay">Test Delay (ms):</label>
+                <input id="txtTestDelay" type="text" value="" />
+            </div>
+            
+            <div class="checkbox">
+                <label for="cbCorrectLatency">Apply Latency Correction:</label>
+                <input id="cbCorrectLatency" type="checkbox" value="" />
+            </div>
+            
+            <div class="checkbox">
+                <label for="cbTestStorage">Test Storage Timestamps:</label>
+                <input id="cbTestStorage" type="checkbox" value="" checked="checked" />
+            </div>
+            
+            <div class="buttonBar">
+                <button id="btnRun" class="grey" title="Run" data-busy-text="Click to Stop" data-idle-text="Run Test">Run Test</button>
+            </div>
         </div>
         
         <div class="statusDisplay">

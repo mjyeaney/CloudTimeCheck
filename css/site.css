@@ -1,5 +1,4 @@
 * { margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; }
 
 body { 
     font-family: "Open Sans", Tahoma, Verdana; 
@@ -164,6 +163,12 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     html { overflow: auto; }
     body { overflow: auto; }
     
+    #titleBar h1 { 
+        text-align: center;
+        float: none;
+        padding: 0; 
+    }
+    
     #titleBar ul { display: none; }
     
     #inputPanel { 
@@ -177,11 +182,16 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
         border-right: none;
     }
     
+    #inputPanel .navPanel h3 { text-align: center; }
+    
     #inputPanel div.textBox, #inputPanel div.checkbox {
         width: 18em;
         margin: 0 auto;
         text-align: center;
     }
+    
+    #inputPanel .inputForm { float: left; margin-left: 2em; }
+    #inputPanel .statusDisplay { float: right; margin-right: 2em; }
     
     #inputPanel .statusDisplay table { width: 20em; margin: 0 auto; }
     
@@ -203,4 +213,9 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
         width: auto;
         margin: 0 auto;
     }
+}
+
+@media (max-width: 610px){
+    #inputPanel .inputForm { float: none; margin-left: 0;}
+    #inputPanel .statusDisplay { float: none; margin-right: 0; }
 }
