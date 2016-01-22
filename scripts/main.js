@@ -66,6 +66,7 @@ $(function(){
     // Control flags
     //
     var _testRunning = false,
+        _lastResults = null,
         _testRunner = null;
  
     //
@@ -84,11 +85,16 @@ $(function(){
                 _testRunner = new TimeChecker(options);
                 
                 _testRunner.OnNextResult = function(results){
-                    _updateGraphData(results);
-                    _updateSummaryData(results);
+                    _lastResults = results;
+                    if ((results.TestRunCount % 4) === 0){
+                        _updateGraphData(results);
+                        _updateSummaryData(results);
+                    }
                 };
                 
                 _testRunner.OnComplete = function(){
+                    _updateGraphData(_lastResults);
+                    _updateSummaryData(_lastResults);
                     $('#btnRun').text($('#btnRun').data('idle-text'));
                     _testRunning = false;
                 };
