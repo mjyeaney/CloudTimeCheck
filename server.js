@@ -76,7 +76,7 @@ app.get('/Time', function(req, res){
         // subject to the same weaknesses details in TimeChecker.js.
         var webServerTime = new Date().getTime();
         var localLatency = (webServerTime - storageReqStart);
-        var correctedStorageTime = new Date(data.headers.date).getTime() - localLatency;
+        var correctedStorageTime = new Date(data.headers.date).getTime();// - localLatency;
         
         // Send back a JSON payload with our readings.
         res.json({

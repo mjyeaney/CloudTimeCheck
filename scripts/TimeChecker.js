@@ -25,7 +25,7 @@
             // Deafult options if none provided
             if (!options){
                 options = {};
-                options.CorrectLatency = true;
+                options.CorrectLatency = false;
                 options.TestStorage = true;
                 options.TestDelay = 10;
                 options.TestCount = 200;
