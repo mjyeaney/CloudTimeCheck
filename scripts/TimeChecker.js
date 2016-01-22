@@ -25,8 +25,6 @@
             // Deafult options if none provided
             if (!options){
                 options = {};
-                options.CorrectLatency = false;
-                options.TestStorage = true;
                 options.TestDelay = 10;
                 options.TestCount = 200;
             }
@@ -39,12 +37,9 @@
             // Test result collections and tracking flags
             var webServerDeltas = [],
                 latencies = [],
-                runningLatencySum = 0.0,
                 storageDeltas = [],
                 storageLatencies = [],
-                start = 0.0,
-                end = 0.0,
-                latency = 0.0;
+                start = 0.0;
             
             // Function used to run a single test method
             var beginSingleTest = function(){
@@ -69,46 +64,27 @@
             // Callback method to perform test measurements
             var completeSingleTest = function(data){
                 //
-                // Take another snapshot of the current timer now.
-                // We want to try to isolate the round-trip latency
-                // in order to remove effects of the network. In order to
-                // do this, we want *half* of the measured round-trip time, 
-                // since the server time was sample mid-way through this time
-                // (NOTE: this is approximate, and assumes symmetric latency).
-                //
                 // While not perfect, informal testing shows this agrees with 
                 // the Chrome developer tools latency measurement, so we're definitely
                 // within the ballpark.
                 //
-                end = new Date().getTime();
-                latency = (end - start);
+                var localTime = new Date().getTime();
+                var latency = (localTime - start) - data.StorageLatency;
+                var timeDelta = (data.ServerTime - localTime);
+                
+                if (timeDelta < 0){
+                    timeDelta += latency;
+                } else {
+                    timeDelta -= latency;
+                }
                 
                 // compute/save time delta (check options for corrections)
-                if (options.CorrectLatency){
-                    var correction = (data.ServerTime - latency);
-                    
-                    //
-                    // Spike/asymmetric latency correction:
-                    //
-                    // If the above delta ends up being < 0, we need to instead subtract off
-                    // the current running average latency as an estimator. Without this, 
-                    // the deltas will be over-compensated.
-                    //
-                    if (correction < 0){
-                        var avg = runningLatencySum / latencies.length;                        
-                        correction = (data.ServerTime - avg);
-                    }
-                    
-                    webServerDeltas.push(start - correction);
-                } else {
-                    webServerDeltas.push(start - data.ServerTime);
-                }
+                webServerDeltas.push(timeDelta);
                 
                 // save latency reading and storage delta
                 storageDeltas.push(data.StorageDelta);
                 storageLatencies.push(data.StorageLatency);
                 latencies.push(latency);
-                runningLatencySum += latency;
                 
                 // Increment call count
                 testCount++;

@@ -127,8 +127,6 @@ $(function(){
         var params = {};
         params.TestCount = parseInt($('#txtTestCount').val());
         params.TestDelay = parseFloat($('#txtTestDelay').val());
-        params.CorrectLatency = $('#cbCorrectLatency').prop('checked');
-        params.TestStorage = $('#cbTestStorage').prop('checked');
         return params;
     };
 
