@@ -70,7 +70,7 @@
                 //
                 var localTime = new Date().getTime();
                 var latency = (localTime - start) - data.StorageLatency;
-                var timeDelta = (data.ServerTime - localTime);
+                var timeDelta = (localTime - data.ServerTime);
                 
                 if (timeDelta < 0){
                     timeDelta += latency;

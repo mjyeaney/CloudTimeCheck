@@ -160,9 +160,6 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 }
 
 @media (max-width: 760px){
-    html { overflow: auto; }
-    body { overflow: auto; }
-    
     #titleBar h1 { 
         text-align: center;
         float: none;
