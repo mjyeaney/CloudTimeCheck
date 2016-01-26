@@ -69,7 +69,7 @@
                 // within the ballpark.
                 //
                 var localTime = new Date().getTime();
-                var latency = (localTime - start) - data.StorageLatency;
+                var latency = ((localTime - start) - data.StorageLatency) / 2.0;
                 var timeDelta = (localTime - data.ServerTime);
                 
                 if (timeDelta < 0){
