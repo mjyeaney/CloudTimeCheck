@@ -22,10 +22,10 @@
 </head>
 <body>
     <div id="titleBar">
-        <h1>Cloud Time Check <span>(Preview)</span></h1>
+        <h1>Cloud Time Check</h1>
         
         <ul>
-            <li><a href="#" title="Sign out">Sign out</a>
+            <li><a href="https://github.com/mjyeaney/CloudTimeCheck" title="View on GitHub" target="_blank">View on GitHub</a>
         </ul>
     </div>
     
@@ -46,7 +46,7 @@
             </div>
             
             <div class="buttonBar">
-                <button id="btnRun" class="green" title="Run" data-busy-text="Click to Stop" data-idle-text="Run Test">Run Test</button>
+                <button id="btnRun" class="red" title="Run" data-busy-text="Click to Stop" data-idle-text="Run Test">Run Test</button>
             </div>
         </div>
         
@@ -58,15 +58,15 @@
                     <td id="txtTestRunCount"><span>0</span>ms</td>
                 </tr>
                 <tr>
-                    <td>Client Skew (&mu;):</td>
+                    <td>Client Offset (&mu;):</td>
                     <td id="txtAvgWebserverDelta"><span>0.0</span>ms</td>
                 </tr>
                 <tr>
-                    <td>Server Skew (&mu;):</td>
+                    <td>Server Offset (&mu;):</td>
                     <td id="txtAvgStorageDelta"><span>0.0</span>ms</td>
                 </tr>
                 <tr>
-                    <td>Client Latency (&mu;):</td>
+                    <td>Server Latency (&mu;):</td>
                     <td id="txtAvgLatency"><span>0.0</span>ms</td>
                 </tr>
                 <tr>

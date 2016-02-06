@@ -39,28 +39,28 @@ $(function(){
     // Initialize charts placeholders (initial)
     //
     var e1 = $('#deltaGraph'),
-        c1 = _createGraph(e1, 'line', 'Client-Web Skew (ms)', []);
+        c1 = _createGraph(e1, 'line', 'Client Offset (ms)', []);
     
     var e2 = $('#deltaHistogram'),
-        c2 = _createGraph(e2, 'column', 'Client-Web Skew (ms) - Histogram', []);
+        c2 = _createGraph(e2, 'column', 'Client Offset (ms) - Histogram', []);
         
     var e3 = $('#latencyGraph'),
-        c3 = _createGraph(e3, 'line', 'Client-Web Latency (ms)', []);
+        c3 = _createGraph(e3, 'line', 'Server Latency (ms)', []);
         
     var e4 = $('#latencyHistogram'),
-        c4 = _createGraph(e4, 'column', 'Client-Web Latency (ms) - Histogram', []);
+        c4 = _createGraph(e4, 'column', 'Server Latency (ms) - Histogram', []);
         
     var e5 = $('#storageDeltaGraph'),
-        c5 = _createGraph(e5, 'line', 'Web-Storage Skew (ms)', []);
+        c5 = _createGraph(e5, 'line', 'Server Offset (ms)', []);
     
     var e6 = $('#storageDeltaHistogram'),
-        c6 = _createGraph(e6, 'column', 'Web-Storage Skew (ms) - Histogram', []);
+        c6 = _createGraph(e6, 'column', 'Server Offset (ms) - Histogram', []);
         
     var e7 = $('#storageLatencyGraph'),
-        c7 = _createGraph(e7, 'line', 'Web-Storage Latency (ms)', []);
+        c7 = _createGraph(e7, 'line', 'Storage Latency (ms)', []);
         
     var e8 = $('#storageLatencyHistogram'),
-        c8 = _createGraph(e8, 'column', 'Web-Storage Latency (ms) - Histogram', []);
+        c8 = _createGraph(e8, 'column', 'Storage Latency (ms) - Histogram', []);
         
     //
     // Control flags
@@ -86,7 +86,7 @@ $(function(){
                 
                 _testRunner.OnNextResult = function(results){
                     _lastResults = results;
-                    if ((results.TestRunCount % 4) === 0){
+                    if ((results.TestRunCount % 2) === 0){
                         _updateGraphData(results);
                         _updateSummaryData(results);
                     }
