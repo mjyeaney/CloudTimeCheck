@@ -9,7 +9,8 @@
 // Pull in libs and bootstrap express application
 //
 var express = require('express'),
-    http = require('http');
+    http = require('http'),
+    alg = require('./scripts/Estimator.js');
     
 // Init the express engine
 var app = express();
@@ -43,9 +44,11 @@ app.get('/Home', function(req, res){
 // Endpoint to get our time data payload
 //
 app.get('/Time', function(req, res){
-    var storageReqStart = 0.0;
-    
+    // Make sure this response is not cached   
     setNoCache(res);
+    
+    // Set the time stampt when we're starting the request
+    var storageReqStart = new Date().getTime();
     
     // Create a basic HTTP request. Notice that we're only making
     // an OPTIONS request. This is because we're only interested in the 
@@ -57,9 +60,6 @@ app.get('/Time', function(req, res){
         method: 'options',
         host: 'mjycdndemo1282015.blob.core.windows.net'
     });
-    
-    // Set the time stampt when we're starting the request
-    storageReqStart = new Date().getTime();
     
     // If any errors surface, make sure we complete the request
     storageRequest.on('error', function(data){
@@ -74,16 +74,16 @@ app.get('/Time', function(req, res){
         // Correct the storage time using the symmetric 
         // method we use on the client. This is (of course)
         // subject to the same weaknesses details in TimeChecker.js.
-        var webServerTime = new Date().getTime();
-        var localLatency = (webServerTime - storageReqStart) / 2.0;
-        var storageTime = new Date(data.headers.date).getTime();
+        var est = new alg.Estimator(),
+            storageReqEnd = new Date().getTime(),
+            storageTime = new Date(data.headers.date).getTime(),
+            offsetInfo = est.ComputeOffset(storageReqStart, storageReqEnd, storageTime);
+            
+        // Patch the offset with the local time
+        offsetInfo.ServerTime = storageReqStart;
         
         // Send back a JSON payload with our readings.
-        res.json({
-            ServerTime: webServerTime,
-            StorageDelta: webServerTime - storageTime,
-            StorageLatency: localLatency 
-        });  
+        res.json(offsetInfo);  
     });
     
     // Mark the request as "ended", thereby sending it.

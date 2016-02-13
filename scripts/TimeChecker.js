@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, Estimator */
 
 //
 // The core time checker logic itself.
@@ -28,6 +28,9 @@
                 options.TestDelay = 10;
                 options.TestCount = 200;
             }
+            
+            // Estimation algorithm
+            var est = new Estimator();
             
             // Local scope and control flags
             var self = this,
@@ -68,23 +71,17 @@
                 // the Chrome developer tools latency measurement, so we're definitely
                 // within the ballpark.
                 //
-                var localTime = new Date().getTime();
-                var latency = ((localTime - start) - data.StorageLatency) / 2.0;
-                var timeDelta = (localTime - data.ServerTime);
-                
-                if (timeDelta < 0){
-                    timeDelta += latency;
-                } else {
-                    timeDelta -= latency;
-                }
-                
+                var end = new Date().getTime();
+                var clientOffset = est.ComputeOffset(start, end, data.ServerTime);
+                var offset = est.ComposeOffsets(clientOffset, data);
+                                
                 // compute/save time delta (check options for corrections)
-                webServerDeltas.push(timeDelta);
+                webServerDeltas.push(offset.Skew);
                 
                 // save latency reading and storage delta
-                storageDeltas.push(data.StorageDelta);
-                storageLatencies.push(data.StorageLatency);
-                latencies.push(latency);
+                storageDeltas.push(data.Skew);
+                storageLatencies.push(data.Latency);
+                latencies.push(offset.Latency);
                 
                 // Increment call count
                 testCount++;
