@@ -58,7 +58,7 @@ app.get('/Time', function(req, res){
     // Date header is still sent, meaning the errors don't matter.
     var storageRequest = http.request({
         method: 'options',
-        host: '1c1759centralus.blob.core.windows.net'
+        host: 'mjycdndemo1282015.blob.core.windows.net'
     });
     
     // If any errors surface, make sure we complete the request
