@@ -58,7 +58,7 @@ app.get('/Time', function(req, res){
     // Date header is still sent, meaning the errors don't matter.
     var storageRequest = http.request({
         method: 'options',
-        host: 'mjycdndemo1282015.blob.core.windows.net'
+        host: 'cloudtimecheck.blob.core.windows.net'
     });
     
     // If any errors surface, make sure we complete the request
